@@ -18,5 +18,5 @@ The second API used was a Cat Fact API where you could either draw information a
 
 Therefore, my application includes a display of a weather forecast and a random cat fact generator.
 
-# Web-App-Using-3rd-Party-Clients-morgangk
-# Web-App-Using-3rd-Party-Clients-morgangk
+Weather Forecast link: https://open-meteo.com/en/docs#hourly=relative_humidity_2m
+Cat Facts: https://catfact.ninja/#/Facts

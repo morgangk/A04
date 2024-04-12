@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Assignment A04</title>
+        <link rel="stylesheet" type="text/css" href="stylePage.css">
+    </head>
+    <body>
+        <h1>Check the Weather</h1>
+        <div id="latitude">
+            Latitude: <input type="text" id="latitudeInput"><br>
+        </div>
+        <div id="longitude">
+            Longitude: <input type="text" id="longitudeInput"><br>
+        </div>
+        <button id="fetchButton">See the Weather Forecast</button>
+        <div id="weather"></div>
+        <script>
+            document.getElementById('fetchButton').addEventListener('click', () => {
+            const latitude = document.getElementById('latitudeInput').value;
+            const longitude = document.getElementById('longitudeInput').value;
+            
+            if (latitude && longitude) {
+                fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m`)
+                .then(res => res.json())
+                .then(data => {
+                    // Process the API response data
+                    console.log(data);
+                    const temperatureMain = data.hourly.temperature_2m.slice(0, 44);
+                    const timeMain = data.hourly.time.slice(0, 44);
+                    const w = document.getElementById('weather');
+                    w.innerHTML = '';
+
+                    temperatureMain.forEach((first_v, index) => {
+                        console.log(first_v)
+                            const time = timeMain[index];
+                            const temperature = first_v;
+                            const forecastElement = document.createElement('div');
+                            forecastElement.innerHTML = `<span class="time">${time}</span>  <span class="temperature">${temperature}°C</span>`;
+                            w.appendChild(forecastElement);
+                    });
+                });
+            }
+                });
+        </script>
+
+        <br></br>
+        <h1>Also, Get a Random Cat Fact</h1>
+        <div id="cats">
+            Page Number: <input type="text" id="PageNumberInput"><br>
+        </div>
+        <button id="CatFactbutton">Get a Random Cat Fact</button>
+        <div id="CatFacts"></div>
+
+        <script>
+            let previous = '';
+
+            document.getElementById('CatFactbutton').addEventListener('click', () => {
+            const currentPage = document.getElementById('PageNumberInput').value;
+            fetch(`https://catfact.ninja/facts?page=${currentPage}`)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    const facts = data.data.map(factObj => factObj.fact);
+                    let random = '';
+                    do {
+                        random = facts[Math.floor(Math.random() * facts.length)];
+                    } while (random === previous);
+                    previous = random;
+                    const catFactContainer = document.getElementById('CatFacts');
+                    catFactContainer.textContent = random;
+                });
+        });
+        </script>
+
+
+    </body>
+</html>
